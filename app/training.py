@@ -13,7 +13,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import FunctionTransformer, StandardScaler
 from sklearn.tree import DecisionTreeClassifier
 
-from preprocessing import preprocess_data
+from app.preprocessing import preprocess_data
 
 SEED = 42
 
