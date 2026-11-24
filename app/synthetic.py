@@ -2,7 +2,7 @@
 import numpy as np
 import pandas as pd
 
-from preprocessing import FEATURES
+from app.preprocessing import FEATURES
 
 
 def make_synthetic(n: int = 4000, fraud_rate: float = 0.02, seed: int = 0) -> pd.DataFrame:
