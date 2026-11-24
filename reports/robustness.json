@@ -1,0 +1,32 @@
+[
+  {
+    "eps": 0.01,
+    "mean_abs_dproba": 0.0002452734813675046,
+    "max_abs_dproba": 0.02806710225860798,
+    "class_flip_rate": 0.0,
+    "d_recall": 0.0,
+    "d_precision": 0.0,
+    "d_fpr": 0.0,
+    "invalid": 0
+  },
+  {
+    "eps": 0.05,
+    "mean_abs_dproba": 0.0012453770629866762,
+    "max_abs_dproba": 0.1509054192719178,
+    "class_flip_rate": 0.0,
+    "d_recall": 0.0,
+    "d_precision": 0.0,
+    "d_fpr": 0.0,
+    "invalid": 0
+  },
+  {
+    "eps": 0.1,
+    "mean_abs_dproba": 0.00255362114986,
+    "max_abs_dproba": 0.3107240413442541,
+    "class_flip_rate": 0.00125,
+    "d_recall": 0.05263157894736836,
+    "d_precision": 0.004761904761904745,
+    "d_fpr": 0.0,
+    "invalid": 0
+  }
+]

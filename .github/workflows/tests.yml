@@ -1,0 +1,59 @@
+name: AI-TestGuard CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      full_experiment:
+        description: "Lancer l'expérience complète"
+        type: boolean
+        default: false
+  schedule:
+    - cron: "0 3 * * 1"   # expérience hebdomadaire
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11", cache: pip }
+      - run: pip install ruff
+      - run: ruff check .
+
+  tests:
+    needs: lint
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: { python-version: ["3.10", "3.11", "3.12"] }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "${{ matrix.python-version }}", cache: pip }
+      - run: pip install -r requirements.txt
+      - name: Pytest + couverture (échec si couverture < 80 %)
+        run: |
+          pytest --cov=app --cov-report=term-missing --cov-report=xml \
+                 --cov-fail-under=80 --junitxml=reports/junit.xml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-reports-${{ matrix.python-version }}
+          path: |
+            reports/junit.xml
+            coverage.xml
+            reports/robustness.json
+
+  experiment:
+    if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.full_experiment)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11", cache: pip }
+      - run: pip install -r requirements.txt
+      - run: python -m app.run_experiment
+      - uses: actions/upload-artifact@v4
+        with: { name: experiment, path: reports/ }
