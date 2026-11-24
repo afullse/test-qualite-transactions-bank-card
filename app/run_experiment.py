@@ -59,7 +59,7 @@ def main(data=None, min_recall=0.80):
 
 if __name__ == "__main__":
     a = argparse.ArgumentParser()
-    a.add_argument("--data")
+    a.add_argument("--data") 
     a.add_argument("--min-recall", type=float, default=0.80)
     ns = a.parse_args()
     main(ns.data, ns.min_recall)
