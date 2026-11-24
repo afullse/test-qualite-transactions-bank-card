@@ -24,7 +24,10 @@ def test_no_secrets_in_repo():
     import re
     from pathlib import Path
     root = Path(__file__).resolve().parent.parent
-    pat = re.compile(r"(AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{36}|-----BEGIN (RSA )?PRIVATE KEY|password\s*=\s*['\"][^'\"]+)")
+    pat = re.compile(
+        r"(AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{36}|"
+        r"-----BEGIN (RSA )?PRIVATE KEY|password\s*=\s*['\"][^'\"]+)"
+    )
     for f in root.rglob("*"):
         if f.suffix in {".py", ".yml", ".yaml", ".txt", ".md", ".json", ".cfg", ".toml"} and ".git" not in f.parts:
             assert not pat.search(f.read_text(errors="ignore")), f"Secret potentiel : {f}"
